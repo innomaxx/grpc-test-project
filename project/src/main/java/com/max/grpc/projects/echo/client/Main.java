@@ -1,5 +1,5 @@
 
-package com.max.grpc.project;
+package com.max.grpc.projects.echo.client;
 
 import io.grpc.StatusRuntimeException;
 

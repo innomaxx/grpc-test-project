@@ -1,8 +1,8 @@
 
-package com.max.grpc.project;
+package com.max.grpc.projects.echo.client;
 
-import com.max.grpc.protos.EchoEntity;
-import com.max.grpc.protos.EchoServiceGrpc;
+import com.max.grpc.projects.echo.protos.EchoEntity;
+import com.max.grpc.projects.echo.protos.EchoServiceGrpc;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

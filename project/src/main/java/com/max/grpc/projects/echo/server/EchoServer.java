@@ -1,8 +1,8 @@
 
-package com.max.grpc.project;
+package com.max.grpc.projects.echo.server;
 
-import com.max.grpc.protos.EchoEntity;
-import com.max.grpc.protos.EchoServiceGrpc;
+import com.max.grpc.projects.echo.protos.EchoEntity;
+import com.max.grpc.projects.echo.protos.EchoServiceGrpc;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -36,12 +36,6 @@ public class EchoServer {
         if (server != null) {
             server.awaitTermination();
         }
-    }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        final EchoServer server = new EchoServer();
-        server.start();
-        server.blockUntilShutdown();
     }
 
     static class EchoImpl extends EchoServiceGrpc.EchoServiceImplBase {
