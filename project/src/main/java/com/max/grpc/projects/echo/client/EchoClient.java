@@ -16,7 +16,7 @@ import static com.max.grpc.projects.echo.protos.EchoServiceGrpc.EchoServiceBlock
 public class EchoClient {
     private static final Logger logger = Logger.getLogger(EchoClient.class.getName());
 
-    private final ManagedChannel channel;
+    private final ManagedChannel managedChannel;
     private final EchoServiceBlockingStub blockingStub;
 
     public EchoClient(String host, int port) {
@@ -26,7 +26,7 @@ public class EchoClient {
     }
 
     public EchoClient(ManagedChannel channel) {
-        this.channel = channel;
+        this.managedChannel = channel;
         blockingStub = EchoServiceGrpc.newBlockingStub(channel);
     }
 
@@ -45,7 +45,7 @@ public class EchoClient {
 
     public void shutdown() {
         try {
-            channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+            managedChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
         }
         catch (InterruptedException ex) {
             logger.severe("Runtime interrupted");
