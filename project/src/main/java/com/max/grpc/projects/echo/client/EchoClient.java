@@ -32,7 +32,7 @@ public class EchoClient {
     public void sendEcho(int code, String message) {
         logger.info("Trying to send echo message");
         try {
-            EchoEntity request = EchoEntity.newBuilder().setCode(123).setMessage(message).build();
+            EchoEntity request = EchoEntity.newBuilder().setCode(code).setMessage(message).build();
             EchoEntity response = blockingStub.sendEcho(request);
             //logger.info("Request sent");
             String logString = String.format("\nResponse received: \n* Code : %d\n* Message : %s", response.getCode(), response.getMessage());
