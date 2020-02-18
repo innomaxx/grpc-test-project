@@ -12,11 +12,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.max.grpc.projects.echo.protos.EchoServiceGrpc.EchoServiceBlockingStub;
+
 public class EchoClient {
     private static final Logger logger = Logger.getLogger(EchoClient.class.getName());
 
     private final ManagedChannel channel;
-    private final EchoServiceGrpc.EchoServiceBlockingStub blockingStub;
+    private final EchoServiceBlockingStub blockingStub;
 
     public EchoClient(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port)
