@@ -11,14 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         var client = new EchoClient("localhost", port);
-        try {
-            client.sendEcho(messageCode, messageText);
-        }
-        catch (StatusRuntimeException ex) {
-            System.out.println("Resource unavailable");
-        }
-        finally {
-            client.shutdown();
-        }
+        client.sendEcho(messageCode, messageText);
+        client.shutdown();
     }
 }

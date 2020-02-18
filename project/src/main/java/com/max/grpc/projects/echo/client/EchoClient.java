@@ -29,17 +29,26 @@ public class EchoClient {
         blockingStub = EchoServiceGrpc.newBlockingStub(channel);
     }
 
-    public EchoEntity sendEcho(int code, String message) throws StatusRuntimeException {
+    public void sendEcho(int code, String message) {
         logger.info("Trying to send echo message");
-        EchoEntity request = EchoEntity.newBuilder().setCode(123).setMessage(message).build();
-        EchoEntity response = blockingStub.sendEcho(request);
-        //logger.info("Request sent");
-        String logString = String.format("\nResponse received: \n* Code : %d\n* Message : %s", response.getCode(), response.getMessage());
-        logger.info(logString);
-        return response;
+        try {
+            EchoEntity request = EchoEntity.newBuilder().setCode(123).setMessage(message).build();
+            EchoEntity response = blockingStub.sendEcho(request);
+            //logger.info("Request sent");
+            String logString = String.format("\nResponse received: \n* Code : %d\n* Message : %s", response.getCode(), response.getMessage());
+            logger.info(logString);
+        }
+        catch (StatusRuntimeException ex) {
+            logger.severe("Resource unavailable");
+        }
     }
 
-    public void shutdown() throws InterruptedException {
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    public void shutdown() {
+        try {
+            channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+        }
+        catch (InterruptedException ex) {
+            logger.severe("Runtime interrupted");
+        }
     }
 }

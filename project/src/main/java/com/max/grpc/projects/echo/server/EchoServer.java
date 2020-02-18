@@ -18,23 +18,38 @@ public class EchoServer {
     private int port = 50000;
     private Server server;
 
-    public void start() throws IOException {
-        server = ServerBuilder.forPort(port)
-                .addService(new EchoImpl())
-                .build()
-                .start();
-        logger.info("Server started, listening on " + port);
-    }
-
-    public void stop() throws InterruptedException {
-        if (server != null) {
-            server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
+    public void start() {
+        Server server = ServerBuilder.forPort(port).addService(new EchoImpl()).build();
+        try {
+            server.start();
+            logger.info("Server started, listening on " + port);
+            this.server = server;
+        }
+        catch (IOException ex) {
+            logger.severe("Server initialization failed");
+            System.exit(0);
         }
     }
 
-    public void blockUntilShutdown() throws InterruptedException {
+    public void stop() {
         if (server != null) {
-            server.awaitTermination();
+            try {
+                server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
+            }
+            catch (InterruptedException ex) {
+                logger.severe("Runtime interrupted");
+            }
+        }
+    }
+
+    public void blockUntilShutdown() {
+        if (server != null) {
+            try {
+                server.awaitTermination();
+            }
+            catch (InterruptedException ex) {
+                logger.severe("Runtime interrupted");
+            }
         }
     }
 
