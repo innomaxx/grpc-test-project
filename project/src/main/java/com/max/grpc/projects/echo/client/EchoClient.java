@@ -9,7 +9,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.max.grpc.projects.echo.protos.EchoServiceGrpc.EchoServiceBlockingStub;
@@ -36,7 +35,6 @@ public class EchoClient {
         try {
             EchoEntity request = EchoEntity.newBuilder().setCode(code).setMessage(message).build();
             EchoEntity response = blockingStub.sendEcho(request);
-            //logger.info("Request sent");
             String logString = String.format("\nResponse received: \n* Code : %d\n* Message : %s", response.getCode(), response.getMessage());
             logger.info(logString);
         }
