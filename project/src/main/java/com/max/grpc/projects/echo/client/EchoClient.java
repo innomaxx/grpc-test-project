@@ -24,7 +24,7 @@ public class EchoClient {
             .build());
     }
 
-    EchoClient(ManagedChannel channel) {
+    public EchoClient(ManagedChannel channel) {
         this.channel = channel;
         blockingStub = EchoServiceGrpc.newBlockingStub(channel);
     }
