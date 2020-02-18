@@ -15,8 +15,12 @@ import java.util.logging.Logger;
 public class EchoServer {
     private static final Logger logger = Logger.getLogger(EchoServer.class.getName());
 
-    private int port = 50000;
+    private int port;
     private Server server;
+
+    public EchoServer(int port) {
+        this.port = port;
+    }
 
     public void start() {
         Server server = ServerBuilder.forPort(port).addService(new EchoImpl()).build();
