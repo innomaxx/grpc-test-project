@@ -8,12 +8,13 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class EchoServer {
-    private static final Logger logger = Logger.getLogger(EchoServer.class.getName());
+    private final Logger logger = Logger.getLogger(EchoServer.class);
 
     private int port;
     private Server server;
@@ -30,8 +31,7 @@ public class EchoServer {
             this.server = server;
         }
         catch (IOException ex) {
-            logger.severe("Server initialization failed");
-            System.exit(0);
+            logger.fatal("Server initialization failed");
         }
     }
 
@@ -41,7 +41,7 @@ public class EchoServer {
                 server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
             }
             catch (InterruptedException ex) {
-                logger.severe("Runtime interrupted");
+                logger.fatal("Failed to stop server");
             }
         }
     }
@@ -52,7 +52,7 @@ public class EchoServer {
                 server.awaitTermination();
             }
             catch (InterruptedException ex) {
-                logger.severe("Runtime interrupted");
+                logger.fatal("Failed to block runtime until shutdown");
             }
         }
     }
