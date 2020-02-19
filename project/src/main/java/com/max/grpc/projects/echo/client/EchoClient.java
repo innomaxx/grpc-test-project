@@ -8,14 +8,14 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
+import org.apache.log4j.Logger;
+
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import static com.max.grpc.projects.echo.protos.EchoServiceGrpc.EchoServiceBlockingStub;
 
 public class EchoClient {
-    private static final Logger logger = Logger.getLogger(EchoClient.class.getName());
-
+    private final Logger logger = Logger.getLogger(EchoClient.class);
     private final ManagedChannel managedChannel;
     private final EchoServiceBlockingStub blockingStub;
 
@@ -35,11 +35,11 @@ public class EchoClient {
         try {
             EchoEntity request = EchoEntity.newBuilder().setCode(code).setMessage(message).build();
             EchoEntity response = blockingStub.sendEcho(request);
-            String logString = String.format("\nResponse received: \n* Code : %d\n* Message : %s", response.getCode(), response.getMessage());
+            String logString = String.format("Response received: code = %d, message = \"%s\"", response.getCode(), response.getMessage());
             logger.info(logString);
         }
         catch (StatusRuntimeException ex) {
-            logger.severe("Resource unavailable");
+            logger.fatal("Resource unavailable");
         }
     }
 
@@ -48,7 +48,7 @@ public class EchoClient {
             managedChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
         }
         catch (InterruptedException ex) {
-            logger.severe("Runtime interrupted");
+            logger.error("Failed to stop gRPC channel", ex);
         }
     }
 }
